@@ -1,0 +1,52 @@
+<div class="card mt-3 mb-2">
+    <div class="card-header d-flex justify-content-between">
+        <a href="{% url 'main_get_blogs' pk=blog.user.id %}">{{blog.user.username}}</a>
+        {% if blog.user == user %}
+        <div class="dropdown ">
+            <button class="btn btn-primary " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                </svg>
+            </button>
+            <div class="p-0 m-0 dropdown-menu" style="background-color: transparent; border: none;">
+                <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+                    <a href="{% url 'main_deleteblog' pk=blog.id %}"  type="button" class="w-100 btn btn-danger">Delete</a>
+                    <a type="button" href="{% url 'main_updateblog' pk=blog.id %}" class="w-100 btn btn-success">Update</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{blog.title}}</h5>
+        <p class="card-text">{{blog.content}}</p>
+
+        <div class="accordion accordion-flush ">
+            <div class="accordion-item">
+                <a href="#" data-bs-toggle="collapse" data-bs-target="#c{{blog.id}}">View comments</a>
+                <div id="c{{blog.id}}" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ul style="list-style-type: none; padding: 0;">
+                            {% for comment in blog.comments.all %}
+                            <li style="padding-top: 0px; margin-top: 0px;"><strong>{{comment.user.username}}:
+                                </strong>{{comment.content}}</a>
+                                {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="input-{{blog.id}}" class="form-control" placeholder="Write a comment:">
+                <button class="btn btn-primary mt-2" name="btn-submit" value="{{blog.id}}" type="submit">submit</a>
+            </form>
+        </div>
+    </div>
+    <div class="card-footer">
+        {{blog.created_at}}
+    </div>
+</div>

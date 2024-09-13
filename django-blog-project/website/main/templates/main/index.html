@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}Home Page{% endblock title %}
+
+{% block content %}
+<div class="container mt-3">
+    {% for blog in blogs %}
+        {% include "main/blog.html" %}
+    {% endfor %}
+</div>
+{% endblock content %}
